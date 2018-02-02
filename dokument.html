@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="da">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    
+    <style>
+        .templateModtager {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 100%;
+            margin: auto;
+            grid-gap: 10px;
+        }
+        
+        .ret {
+            border: 1px solid #666;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .ret:nth-child(odd) {
+            background: #B3A07A;
+            
+        }
+        
+        @media screen and (max-width:768px) {
+            .templateModtager {
+                max-width: 100%;
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="templateModtager"></div>
+    <template class="mytemplate">
+        <div class="ret">
+        <img class="photo">
+            <h1 class="title"></h1>
+            <p class="description"></p>
+            <p class="price"></p>
+        </div>
+        </template>
+    
+    
+    <script>
+        let dishes;
+    
+        document.addEventListener("DOMContentLoaded", loadJson);
+        let modtager = document.querySelector(".templateModtager");
+        let template = document.querySelector(".mytemplate");
+        
+        async function loadJson(){
+            let minliste = await fetch("menu.json");
+            retter = await minliste.json();
+            console.log(retter);
+            
+            visRetter(retter);
+        }
+
+        function visRetter() {
+            
+            retter.forEach(hverRet =>{
+                let klon = template.cloneNode(true).content;
+                klon.querySelector(".title").textContent = hverRet.navn;
+                console.log(hverRet.billede);
+                klon.querySelector(".photo").src = "babushka assets/imgs/small/" + hverRet.billede + "-sm.jpg";
+                klon.querySelector(".description").textContent = hverRet.kortbeskrivelse;
+                klon.querySelector(".price").textContent = hverRet.pris;
+                modtager.appendChild(klon);
+            })
+            
+        }
+        
+    
+    
+    </script>
+</body>
+</html>
